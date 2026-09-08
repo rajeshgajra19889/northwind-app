@@ -1,0 +1,69 @@
+<div class="grid-toolbar">
+  @if (showSearch) {
+  <input
+    type="text"
+    [value]="searchText"
+    [placeholder]="searchPlaceholder"
+    (input)="searchChange.emit($any($event.target).value)"
+  />
+  }
+</div>
+
+<div class="grid-wrapper">
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <div>Loading...</div>
+      </div>
+    </div>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        @for (column of columns; track column.key) {
+          <th [class.sortable]="column.sortable" (click)="column.sortable && onSort(column.key)">
+            {{ column.header }}
+            @if (column.sortable && sortColumn === column.key) {
+              <span>{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+            }
+          </th>
+        }
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (row of rows; track row[rowKey]) {
+        <tr>
+          @for (column of columns; track column.key) {
+            <td>{{ formatValue(row, column) }}</td>
+          }
+          <td>
+            @for (action of actions; track action.action) {
+              <button
+                [class]="action.cssClass ?? ''"
+                (click)="actionClick.emit({ action: action.action, row: row })"
+              >
+                {{ action.label }}
+              </button>
+            }
+          </td>
+        </tr>
+      }
+
+      @if (!loading && rows.length === 0) {
+        <tr>
+          <td [attr.colspan]="columns.length + 1" class="no-data">{{ emptyMessage }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination">
+  <button (click)="previous.emit()" [disabled]="currentPage <= 1 || loading">Previous</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button (click)="next.emit()" [disabled]="currentPage >= totalPages || loading">Next</button>
+</div>

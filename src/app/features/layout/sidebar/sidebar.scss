@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  align-items: stretch;
+}
+
+.sidebar {
+  width: 220px;
+  background: #333;
+  padding-top: 24px;
+  flex-shrink: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 12px 24px;
+  color: #ccc;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar li a:hover {
+  background: #444;
+  color: #fff;
+}
+
+.sidebar li a.active {
+  background: #3f51b5;
+  color: #fff;
+  border-left: 4px solid #fff;
+}
