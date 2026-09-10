@@ -1,0 +1,11 @@
+@for (toast of toastService.activeToasts(); track toast.id; let i = $index) {
+  <div class="toast" [class]="toast.type" [style.top.px]="12 + i * 74" role="status">
+    <div class="toast-content">
+      @if (toast.title) {
+        <strong class="toast-title">{{ toast.title }}</strong>
+      }
+      <span class="toast-message">{{ toast.message }}</span>
+    </div>
+    <button class="toast-close" (click)="toastService.dismiss(toast.id)" aria-label="Dismiss">&times;</button>
+  </div>
+}
