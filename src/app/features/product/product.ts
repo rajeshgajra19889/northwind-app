@@ -8,7 +8,7 @@ export interface Product {
   unitsInStock?: number | null;
   unitsOnOrder?: number | null;
   reorderLevel?: number | null;
-  discontinued: boolean;
+  discontinued: number;
 }
 
 export interface Category {

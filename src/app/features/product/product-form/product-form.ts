@@ -46,7 +46,7 @@ export class ProductForm {
     unitsInStock: [<number | null>0, [Validators.min(0)]],
     unitsOnOrder: [<number | null>0, [Validators.min(0)]],
     reorderLevel: [<number | null>0, [Validators.min(0)]],
-    discontinued: [false, [Validators.required]],
+    discontinued: [0],
   });
 
   private formStatus = toSignal(this.form.statusChanges, {
@@ -68,7 +68,7 @@ export class ProductForm {
         this.loadProduct(currentId);
       } else {
         this.form.reset({
-          discontinued: false,
+          discontinued: 0,
           unitPrice: 0,
           unitsInStock: 0,
           unitsOnOrder: 0,
