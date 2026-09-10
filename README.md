@@ -4,6 +4,10 @@
 
 Angular frontend for a simple Northwind admin panel. Shows customers, products, orders, employees, suppliers, shippers etc. with a table that has search, sort and pagination.
 
+## Live Demo
+
+https://northwind-app-wjjo.onrender.com
+
 ## Run
 
 ```bash
