@@ -2,11 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Category, Product, Supplier } from './product';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class ProductService {
 
-    private apiUrl = 'http://localhost:3000/products';
+    private apiUrl = `${environment.apiUrl}/products`;
     private readonly httpClient = inject(HttpClient);
 
     getProducts(search: string,
@@ -43,10 +44,10 @@ export class ProductService {
     }
 
     getCategories(): Observable<Category[]> {
-        return this.httpClient.get<Category[]>(`http://localhost:3000/categories`);
+        return this.httpClient.get<Category[]>(`${environment.apiUrl}/categories`);
     }
 
     getSuppliers(): Observable<Supplier[]> {
-        return this.httpClient.get<Supplier[]>(`http://localhost:3000/suppliers`);
+        return this.httpClient.get<Supplier[]>(`${environment.apiUrl}/suppliers`);
     }
 }

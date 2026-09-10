@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order } from './order';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class OrderService {
-  private apiUrl = 'http://localhost:3000/orders';
+  private apiUrl = `${environment.apiUrl}/orders`;
   private readonly httpClient = inject(HttpClient);
 
   getOrders(

@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Territory } from './territory';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class TerritoryService {
-  private apiUrl = 'http://localhost:3000/territories';
+  private apiUrl = `${environment.apiUrl}/territories`;
   private readonly httpClient = inject(HttpClient);
 
   getTerritories(

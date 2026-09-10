@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Supplier } from './supplier';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class SupplierService {
-  private apiUrl = 'http://localhost:3000/suppliers';
+  private apiUrl = `${environment.apiUrl}/suppliers`;
   private readonly httpClient = inject(HttpClient);
 
   getSuppliers(

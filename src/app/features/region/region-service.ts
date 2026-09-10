@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Region } from './region';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class RegionService {
-  private apiUrl = 'http://localhost:3000/regions';
+  private apiUrl = `${environment.apiUrl}/regions`;
   private readonly httpClient = inject(HttpClient);
 
   getRegions(

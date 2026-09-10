@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Category } from './category';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class CategoryService {
-  private apiUrl = 'http://localhost:3000/categories';
+  private apiUrl = `${environment.apiUrl}/categories`;
   private readonly httpClient = inject(HttpClient);
 
   getCategories(

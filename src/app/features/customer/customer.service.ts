@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Service()
 export class CustomerService {
-    private apiUrl = 'http://localhost:3000/customers';
+    private apiUrl = `${environment.apiUrl}/customers`;
     private readonly httpClient = inject(HttpClient);
 
     getCustomers(search: string,
