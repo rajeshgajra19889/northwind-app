@@ -1,5 +1,7 @@
 # Northwind App
 
+[![CI](https://github.com/rajeshgajra19889/northwind-app/actions/workflows/ci.yml/badge.svg)](https://github.com/rajeshgajra19889/northwind-app/actions/workflows/ci.yml)
+
 Angular frontend for a simple Northwind admin panel. Shows customers, products, orders, employees, suppliers, shippers etc. with a table that has search, sort and pagination.
 
 ## Run
