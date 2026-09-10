@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>Orders</h2>
+  <button class="btn-add" (click)="onAddOrder()">New Order</button>
+</div>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <app-data-grid
+    [columns]="columns"
+    [rows]="orders()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [searchText]="searchText()"
+    [sortColumn]="sortColumn()"
+    [sortDirection]="sortDirection()"
+    [actions]="actions()"
+    [rowKey]="'orderId'"
+    searchPlaceholder="Search order, customer, employee, city..."
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+    (actionClick)="onGridAction($event)"
+  >
+  </app-data-grid>
+}

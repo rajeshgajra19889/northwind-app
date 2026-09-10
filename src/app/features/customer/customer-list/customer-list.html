@@ -1,4 +1,7 @@
-<h2>Customers</h2>
+<div class="page-header">
+  <h2>Customers</h2>
+  <button class="btn-add" (click)="onAddCustomer()">New Customer</button>
+</div>
 
 @if (loading()) {
   <p>Loading...</p>

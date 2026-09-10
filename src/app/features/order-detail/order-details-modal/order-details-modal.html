@@ -1,0 +1,47 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ isEditMode() ? 'Edit Item' : 'Add Item' }}</h2>
+      <button class="modal-close" (click)="onClose()" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form class="item-form" [formGroup]="form" (ngSubmit)="onSave()">
+        <label>
+          Product *
+          <select formControlName="productId" [disabled]="isEditMode()">
+            <option [ngValue]="null">-- Select Product --</option>
+            @for (product of products(); track product.productId) {
+              <option [ngValue]="product.productId">{{ product.productName }}</option>
+            }
+          </select>
+          @if (form.controls.productId.hasError('required') && form.controls.productId.touched) {
+            <span class="error">Product is required.</span>
+          }
+        </label>
+
+        <label>
+          Unit Price
+          <input type="number" step="0.01" formControlName="unitPrice" />
+        </label>
+
+        <label>
+          Quantity *
+          <input type="number" formControlName="quantity" />
+        </label>
+
+        <label>
+          Discount
+          <input type="number" step="0.01" formControlName="discount" placeholder="e.g. 0.15" />
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="onClose()">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="saving() || form.invalid">
+            {{ saving() ? 'Saving...' : isEditMode() ? 'Save Changes' : 'Add Item' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

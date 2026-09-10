@@ -5,6 +5,7 @@ export interface DataGridColumn {
   header: string;
   sortable?: boolean;
   type?: 'text' | 'number' | 'currency' | 'date' | 'boolean';
+  valueGetter?: (row: any) => any;
 }
 
 export interface DataGridAction {
@@ -49,7 +50,7 @@ export class DataGrid {
   }
 
   formatValue(row: any, column: DataGridColumn): string {
-    const value = row[column.key];
+    const value = column.valueGetter ? column.valueGetter(row) : column.key.split('.').reduce((obj: any, key: string) => obj?.[key], row);
 
     if (value === null || value === undefined) {
       return '';

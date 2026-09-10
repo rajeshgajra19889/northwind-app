@@ -1,0 +1,137 @@
+<main class="dashboard">
+  <header class="welcome">
+    <div>
+      <h1>{{ greeting() }}, Admin</h1>
+      <p>Here's what's happening across your business today.</p>
+    </div>
+    <div class="today">
+      <strong>{{ today | date: 'EEEE' }}</strong>
+      <span>{{ today | date: 'MMMM d, yyyy' }}</span>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="loading">Loading dashboard&hellip;</div>
+  } @else {
+    <section class="stat-grid">
+      @for (card of stats(); track card.label; let i = $index) {
+        <article class="stat-card" [class]="card.accent">
+          <div class="stat-icon" [innerHTML]="card.icon"></div>
+          <div class="stat-body">
+            <span class="stat-label">{{ card.label }}</span>
+            <span class="stat-value">{{ formatter.format(card.value) }}</span>
+            <span class="stat-footer">
+              <span class="trend-icon" [innerHTML]="icons.trend"></span>
+              {{ card.footer }}
+            </span>
+          </div>
+        </article>
+      }
+    </section>
+
+    <section class="chart-row">
+      <article class="panel chart-panel">
+        <header class="panel-header">
+          <h2>Sales Overview</h2>
+          <span class="panel-sub">Last 6 months revenue</span>
+        </header>
+        <div class="bar-chart">
+          @for (point of data()?.salesOverview ?? []; track point.month) {
+            <div class="bar-col">
+              <div class="bar-track">
+                <div
+                  class="bar"
+                  [style.height.%]="barHeight(point.revenue)"
+                  [attr.title]="point.month + ': ' + currency.format(point.revenue)"
+                ></div>
+              </div>
+              <span class="bar-label">{{ point.month }}</span>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="panel status-panel">
+        <header class="panel-header">
+          <h2>Order Status</h2>
+          <span class="panel-sub">Delivery performance</span>
+        </header>
+        <div class="status-body">
+          <div class="donut" [style.background]="orderStatus().gradient">
+            <div class="donut-hole">
+              <strong>{{ formatter.format(data()?.stats?.orders) }}</strong>
+              <span>orders</span>
+            </div>
+          </div>
+          <ul class="legend">
+            @for (row of orderStatus().rows; track row.status) {
+              <li>
+                <span class="dot" [style.background]="row.color"></span>
+                <span class="legend-label">{{ row.status }}</span>
+                <span class="legend-num">{{ formatter.format(row.count) }}</span>
+                <span class="legend-pct">{{ row.pct }}%</span>
+              </li>
+            }
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel-row">
+      <article class="panel table-panel">
+        <header class="panel-header">
+          <h2>Recent Orders</h2>
+          <a class="panel-link" routerLink="/orders">View all &rarr;</a>
+        </header>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th class="num">Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of data()?.recentOrders ?? []; track order.orderId) {
+              <tr>
+                <td class="mono">#{{ order.orderId }}</td>
+                <td class="ellipsis">{{ order.customerName }}</td>
+                <td class="date">{{ order.orderDate }}</td>
+                <td class="num">{{ currency.format(order.total) }}</td>
+                <td class="actions-cell">
+                  <a class="cell-link" routerLink="/orders/details/{{ order.orderId }}">Details</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel products-panel">
+        <header class="panel-header">
+          <h2>Top Products</h2>
+          <a class="panel-link" routerLink="/products">More &rarr;</a>
+        </header>
+        <ul class="product-list">
+          @for (product of data()?.topProducts ?? []; track product.productName; let i = $index) {
+            <li>
+              <span class="rank">{{ i + 1 }}</span>
+              <div class="product-info">
+                <span class="product-name ellipsis">{{ product.productName }}</span>
+                <span class="product-bar">
+                  <span
+                    class="product-bar-fill"
+                    [style.width.%]="(product.revenue / (data()?.topProducts[0]?.revenue || 1)) * 100"
+                  ></span>
+                </span>
+              </div>
+              <span class="product-revenue">{{ currency.format(product.revenue) }}</span>
+            </li>
+          }
+        </ul>
+      </article>
+    </section>
+  }
+</main>

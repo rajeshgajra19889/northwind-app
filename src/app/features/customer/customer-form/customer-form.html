@@ -1,0 +1,122 @@
+<h2>{{ isEdit() ? 'Edit Customer' : 'New Customer' }}</h2>
+
+@if (loading()) {
+  <div class="loading-spinner">Loading customer details...</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset [disabled]="isFormDisabled()">
+    <div class="form-grid">
+      <label>
+        Customer ID *
+        <input formControlName="customerId" placeholder="e.g. ABCD1" />
+        @if (form.controls.customerId.hasError('required') && form.controls.customerId.touched) {
+          <span class="error">Customer ID is required</span>
+        }
+        @if (form.controls.customerId.hasError('maxlength')) {
+          <span class="error">Max 5 characters</span>
+        }
+      </label>
+
+      <label>
+        Company Name *
+        <input formControlName="companyName" />
+        @if (form.controls.companyName.hasError('required') && form.controls.companyName.touched) {
+          <span class="error">Company name is required</span>
+        }
+        @if (form.controls.companyName.hasError('maxlength')) {
+          <span class="error">Max 40 characters</span>
+        }
+      </label>
+
+      <label>
+        Contact Name
+        <input formControlName="contactName" />
+        @if (form.controls.contactName.hasError('maxlength')) {
+          <span class="error">Max 30 characters</span>
+        }
+      </label>
+
+      <label>
+        Contact Title
+        <input formControlName="contactTitle" />
+        @if (form.controls.contactTitle.hasError('maxlength')) {
+          <span class="error">Max 30 characters</span>
+        }
+      </label>
+
+      <label>
+        Address
+        <input formControlName="address" />
+        @if (form.controls.address.hasError('maxlength')) {
+          <span class="error">Max 60 characters</span>
+        }
+      </label>
+
+      <label>
+        City
+        <input formControlName="city" />
+        @if (form.controls.city.hasError('maxlength')) {
+          <span class="error">Max 15 characters</span>
+        }
+      </label>
+
+      <label>
+        Region
+        <input formControlName="region" />
+        @if (form.controls.region.hasError('maxlength')) {
+          <span class="error">Max 15 characters</span>
+        }
+      </label>
+
+      <label>
+        Postal Code
+        <input formControlName="postalCode" />
+        @if (form.controls.postalCode.hasError('maxlength')) {
+          <span class="error">Max 10 characters</span>
+        }
+      </label>
+
+      <label>
+        Country
+        <input formControlName="country" />
+        @if (form.controls.country.hasError('maxlength')) {
+          <span class="error">Max 15 characters</span>
+        }
+      </label>
+
+      <label>
+        Phone
+        <input formControlName="phone" />
+        @if (form.controls.phone.hasError('maxlength')) {
+          <span class="error">Max 24 characters</span>
+        }
+      </label>
+
+      <label>
+        Fax
+        <input formControlName="fax" />
+        @if (form.controls.fax.hasError('maxlength')) {
+          <span class="error">Max 24 characters</span>
+        }
+      </label>
+    </div>
+  </fieldset>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="actions">
+    <button type="button" (click)="onCancel()" [disabled]="saving()">
+      Cancel
+    </button>
+    <button type="submit" [disabled]="isInvalid() || isPending() || isFormDisabled()">
+      @if (saving()) {
+        Saving...
+      } @else {
+        {{ isEdit() ? 'Save Changes' : 'Create Customer' }}
+      }
+    </button>
+  </div>
+</form>

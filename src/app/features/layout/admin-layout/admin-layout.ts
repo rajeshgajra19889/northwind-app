@@ -4,7 +4,7 @@ import { Navbar } from '../navbar/navbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [Sidebar,Navbar,RouterOutlet,RouterLinkActive, RouterLink],
+  imports: [Sidebar,Navbar,RouterOutlet],
   selector: 'app-admin-layout',
   styleUrl: './admin-layout.scss',
   templateUrl: './admin-layout.html',

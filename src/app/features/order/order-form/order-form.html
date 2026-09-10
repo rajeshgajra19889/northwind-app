@@ -1,0 +1,121 @@
+<h2>{{ isEdit() ? 'Edit Order' : 'New Order' }}</h2>
+
+@if (loading()) {
+  <div class="loading-spinner">Loading order details...</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset [disabled]="isFormDisabled()">
+    <div class="form-grid">
+      <!-- Customer Dropdown -->
+      <label>
+        Customer
+        <select formControlName="customerId">
+          <option [ngValue]="null">-- Select Customer --</option>
+          @for (customer of customers(); track customer.customerId) {
+            <option [ngValue]="customer.customerId">{{ customer.companyName }}</option>
+          }
+        </select>
+      </label>
+
+      <!-- Employee Dropdown -->
+      <label>
+        Employee
+        <select formControlName="employeeId">
+          <option [ngValue]="null">-- Select Employee --</option>
+          @for (employee of employees(); track employee.employeeId) {
+            <option [ngValue]="employee.employeeId">
+              {{ employee.firstName }} {{ employee.lastName }}
+            </option>
+          }
+        </select>
+      </label>
+
+      <!-- Dates -->
+      <label>
+        Order Date
+        <input type="date" formControlName="orderDate" />
+      </label>
+
+      <label>
+        Required Date
+        <input type="date" formControlName="requiredDate" />
+      </label>
+
+      <label>
+        Shipped Date
+        <input type="date" formControlName="shippedDate" />
+      </label>
+
+      <!-- Freight -->
+      <label>
+        Freight
+        <input type="number" step="0.01" formControlName="freight" placeholder="e.g. 32.38" />
+      </label>
+
+      <!-- Ship To -->
+      <label>
+        Ship Name
+        <input formControlName="shipName" placeholder="e.g. Vins et alcools Chevalier" />
+        @if (form.controls.shipName.hasError('maxlength')) {
+          <span class="error">Maximum 40 characters allowed.</span>
+        }
+      </label>
+
+      <label>
+        Ship Address
+        <input formControlName="shipAddress" placeholder="e.g. 59 rue de l'Abbaye" />
+        @if (form.controls.shipAddress.hasError('maxlength')) {
+          <span class="error">Maximum 60 characters allowed.</span>
+        }
+      </label>
+
+      <label>
+        Ship City
+        <input formControlName="shipCity" placeholder="e.g. Reims" />
+        @if (form.controls.shipCity.hasError('maxlength')) {
+          <span class="error">Maximum 15 characters allowed.</span>
+        }
+      </label>
+
+      <label>
+        Ship Region
+        <input formControlName="shipRegion" />
+        @if (form.controls.shipRegion.hasError('maxlength')) {
+          <span class="error">Maximum 15 characters allowed.</span>
+        }
+      </label>
+
+      <label>
+        Ship Postal Code
+        <input formControlName="shipPostalCode" placeholder="e.g. 51100" />
+        @if (form.controls.shipPostalCode.hasError('maxlength')) {
+          <span class="error">Maximum 10 characters allowed.</span>
+        }
+      </label>
+
+      <label>
+        Ship Country
+        <input formControlName="shipCountry" placeholder="e.g. France" />
+        @if (form.controls.shipCountry.hasError('maxlength')) {
+          <span class="error">Maximum 15 characters allowed.</span>
+        }
+      </label>
+    </div>
+  </fieldset>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="actions">
+    <button type="button" (click)="onCancel()" [disabled]="saving()">Cancel</button>
+    <button type="submit" [disabled]="isInvalid() || isPending() || isFormDisabled()">
+      @if (saving()) {
+        Saving...
+      } @else {
+        {{ isEdit() ? 'Save Changes' : 'Create Order' }}
+      }
+    </button>
+  </div>
+</form>

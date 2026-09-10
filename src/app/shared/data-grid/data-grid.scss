@@ -103,6 +103,15 @@ td button:hover {
   background: #fef2f2;
 }
 
+.primary-button {
+  border-color: #059669;
+  color: #059669;
+}
+
+.primary-button:hover {
+  background: #ecfdf5;
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }

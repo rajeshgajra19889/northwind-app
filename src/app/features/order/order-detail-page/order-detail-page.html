@@ -1,0 +1,45 @@
+<div class="page-header">
+  <div class="title-group">
+    <button class="btn-back" (click)="onBack()">&larr; Back</button>
+    <h2>Order #{{ id() }} — Line Items</h2>
+  </div>
+  <button class="btn-add" (click)="addItem()">+ Add Item</button>
+</div>
+
+@if (order(); as o) {
+  <div class="order-summary">
+    <div><strong>Customer:</strong> {{ o.customerName ?? o.customerId ?? '—' }}</div>
+    <div><strong>Employee:</strong> {{ o.employeeName ?? o.employeeId ?? '—' }}</div>
+    <div><strong>Order Date:</strong> {{ o.orderDate ? (o.orderDate | date: 'mediumDate') : '—' }}</div>
+    <div><strong>Ship To:</strong> {{ o.shipCity ?? '—' }}{{ o.shipCountry ? ', ' + o.shipCountry : '' }}</div>
+  </div>
+}
+
+<app-data-grid
+  [columns]="columns"
+  [rows]="items()"
+  [loading]="gridLoading()"
+  [currentPage]="currentPage()"
+  [totalPages]="totalPages()"
+  [searchText]="searchText()"
+  [sortColumn]="sortColumn()"
+  [sortDirection]="sortDirection()"
+  [actions]="actions()"
+  [rowKey]="'productId'"
+  searchPlaceholder="Search product name..."
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)"
+  (previous)="previousPage()"
+  (next)="nextPage()"
+  (actionClick)="onGridAction($event)"
+>
+</app-data-grid>
+
+@if (showModal() && id() !== undefined) {
+  <app-order-details-modal
+    [orderId]="orderIdNumber()"
+    [editItem]="editingItem()"
+    (close)="closeModal()"
+  >
+  </app-order-details-modal>
+}

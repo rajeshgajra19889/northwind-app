@@ -1,0 +1,74 @@
+<div class="page-header">
+  <div class="title-group">
+    <button class="btn-back" (click)="onBack()">&larr; Back</button>
+    <h2>Employee #{{ id() }} — Territory Assignment</h2>
+  </div>
+  <button class="btn-assign" (click)="openAssignModal()">+ Assign Territory</button>
+</div>
+
+@if (employee(); as e) {
+  <div class="employee-summary">
+    <div><strong>Name:</strong> {{ e.firstName }} {{ e.lastName }}</div>
+    <div><strong>Title:</strong> {{ e.title ?? '—' }}</div>
+    <div>
+      <strong>Reports To:</strong>
+      {{ e.reportsToEmployee ? (e.reportsToEmployee.firstName + ' ' + e.reportsToEmployee.lastName) : '—' }}
+    </div>
+    <div><strong>City:</strong> {{ e.city ?? '—' }}{{ e.country ? ', ' + e.country : '' }}</div>
+  </div>
+}
+
+<app-data-grid
+  [columns]="columns"
+  [rows]="territories()"
+  [loading]="loading()"
+  [actions]="actions()"
+  [rowKey]="'territoryId'"
+  emptyMessage="No territories assigned yet."
+  (actionClick)="onGridAction($event)"
+>
+</app-data-grid>
+
+@if (showAssignModal()) {
+  <div class="modal-backdrop" (click)="closeAssignModal()">
+    <div class="modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Assign Territory</h3>
+        <button class="modal-close" (click)="closeAssignModal()" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <label>
+          Territory *
+          <select
+            [value]="selectedTerritoryId() ?? ''"
+            (change)="onTerritoryChange($event)"
+          >
+            <option [value]="''">-- Select Territory --</option>
+            @for (territory of availableTerritories(); track territory.territoryId) {
+              <option [value]="territory.territoryId">
+                {{ territory.territoryDescription }} ({{ territory.territoryId }})
+              </option>
+            }
+          </select>
+        </label>
+
+        @if (availableTerritories().length === 0) {
+          <p class="muted">No unassigned territories available.</p>
+        }
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closeAssignModal()">Cancel</button>
+          <button
+            type="button"
+            class="btn-save"
+            [disabled]="saving() || !selectedTerritoryId()"
+            (click)="assignTerritory()"
+          >
+            {{ saving() ? 'Assigning...' : 'Assign' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

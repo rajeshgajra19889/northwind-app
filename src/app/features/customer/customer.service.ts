@@ -20,4 +20,20 @@ export class CustomerService {
             .set('pageSize', pageSize.toString());
         return this.httpClient.get<any[]>(this.apiUrl, { params });
     }
+
+    getCustomerById(id: string): Observable<any> {
+        return this.httpClient.get<any>(`${this.apiUrl}/${id}`);
+    }
+
+    createCustomer(customer: any): Observable<any> {
+        return this.httpClient.post<any>(this.apiUrl, customer);
+    }
+
+    updateCustomer(id: string, customer: any): Observable<any> {
+        return this.httpClient.patch<any>(`${this.apiUrl}/${id}`, customer);
+    }
+
+    deleteCustomer(id: string): Observable<any> {
+        return this.httpClient.delete<any>(`${this.apiUrl}/${id}`);
+    }
 }

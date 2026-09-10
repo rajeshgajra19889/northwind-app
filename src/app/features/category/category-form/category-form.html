@@ -1,0 +1,44 @@
+<h2>{{ isEdit() ? 'Edit Category' : 'New Category' }}</h2>
+
+@if (loading()) {
+  <div class="loading-spinner">Loading category details...</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset [disabled]="isFormDisabled()">
+    <div class="form-grid">
+      <!-- Category Name -->
+      <label class="col-span-2">
+        Category Name *
+        <input formControlName="categoryName" placeholder="e.g. Beverages" />
+        @if (form.controls.categoryName.hasError('required') && form.controls.categoryName.touched) {
+          <span class="error">Category name is required.</span>
+        }
+        @if (form.controls.categoryName.hasError('maxlength')) {
+          <span class="error">Maximum 15 characters allowed.</span>
+        }
+      </label>
+
+      <!-- Description -->
+      <label class="col-span-2">
+        Description
+        <textarea formControlName="description" placeholder="Category description..." rows="5"></textarea>
+      </label>
+    </div>
+  </fieldset>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="actions">
+    <button type="button" (click)="onCancel()" [disabled]="saving()">Cancel</button>
+    <button type="submit" [disabled]="isInvalid() || isPending() || isFormDisabled()">
+      @if (saving()) {
+        Saving...
+      } @else {
+        {{ isEdit() ? 'Save Changes' : 'Create Category' }}
+      }
+    </button>
+  </div>
+</form>

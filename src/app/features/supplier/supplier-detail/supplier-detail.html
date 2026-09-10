@@ -1,0 +1,38 @@
+<div class="page-header">
+  <div class="title-group">
+    <button class="btn-back" (click)="onBack()">&larr; Back</button>
+    <h2>Supplier #{{ id() }} — Products</h2>
+  </div>
+</div>
+
+@if (supplier(); as s) {
+  <div class="supplier-summary">
+    <div><strong>Company:</strong> {{ s.companyName }}</div>
+    <div><strong>Contact:</strong> {{ s.contactName ?? '—' }}{{ s.contactTitle ? ', ' + s.contactTitle : '' }}</div>
+    <div>
+      <strong>Address:</strong>
+      {{ s.address ?? '' }}{{ s.city ? ', ' + s.city : '' }}{{ s.country ? ', ' + s.country : '' }}
+    </div>
+    <div><strong>Phone:</strong> {{ s.phone ?? '—' }}</div>
+  </div>
+}
+
+<app-data-grid
+  [columns]="columns"
+  [rows]="products()"
+  [loading]="loading()"
+  [currentPage]="currentPage()"
+  [totalPages]="totalPages()"
+  [searchText]="searchText()"
+  [sortColumn]="sortColumn()"
+  [sortDirection]="sortDirection()"
+  [actions]="actions()"
+  [rowKey]="'productId'"
+  searchPlaceholder="Search this supplier's products..."
+  emptyMessage="No products from this supplier."
+  (searchChange)="onSearch($event)"
+  (sortChange)="onSort($event)"
+  (previous)="previousPage()"
+  (next)="nextPage()"
+>
+</app-data-grid>

@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>Shippers</h2>
+  <button class="btn-add" (click)="onAddShipper()">New Shipper</button>
+</div>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <app-data-grid
+    [columns]="columns"
+    [rows]="shippers()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [searchText]="searchText()"
+    [sortColumn]="sortColumn()"
+    [sortDirection]="sortDirection()"
+    [actions]="actions()"
+    [rowKey]="'shipperId'"
+    searchPlaceholder="Search shipper..."
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+    (actionClick)="onGridAction($event)"
+  >
+  </app-data-grid>
+}

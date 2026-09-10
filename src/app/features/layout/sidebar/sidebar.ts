@@ -20,11 +20,38 @@ interface NavGroup {
 export class Sidebar {
   navGroups: NavGroup[] = [
     {
-      title: 'Customers',
+      title: 'Sales',
       links: [
-        { label: 'Customers', path: '/customers' }
-
-      ]
-    }
+        { label: 'Orders', path: '/orders' },
+        { label: 'Customers', path: '/customers' },
+      ],
+    },
+    {
+      title: 'Products',
+      links: [
+        { label: 'Products', path: '/products' },
+        { label: 'Categories', path: '/categories' },
+        { label: 'Suppliers', path: '/suppliers' },
+      ],
+    },
+    {
+      title: 'Employees',
+      links: [{ label: 'Employees', path: '/employees' }],
+    },
+    {
+      title: 'Territories',
+      links: [
+        { label: 'Territories', path: '/territories' },
+        { label: 'Regions', path: '/regions' },
+      ],
+    },
+    {
+      title: 'Shipping',
+      links: [{ label: 'Shippers', path: '/shippers' }],
+    },
+    {
+      title: 'Administration',
+      links: [{ label: 'Settings', path: '/settings' }],
+    },
   ];
 }

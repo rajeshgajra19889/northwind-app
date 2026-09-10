@@ -1,0 +1,116 @@
+<h2>{{ isEdit() ? 'Edit Product' : 'New Product' }}</h2>
+
+@if (loading()) {
+<div class="loading-spinner">Loading product details...</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <fieldset [disabled]="isFormDisabled()">
+        <div class="form-grid">
+
+            <!-- Product Name -->
+            <label class="col-span-2">
+                Product Name *
+                <input formControlName="productName" placeholder="e.g. Chai, Aniseed Syrup" />
+                @if (form.controls.productName.hasError('required') && form.controls.productName.touched) {
+                <span class="error">Product name is required.</span>
+                }
+                @if (form.controls.productName.hasError('maxlength')) {
+                <span class="error">Maximum 40 characters allowed.</span>
+                }
+            </label>
+
+            <!-- Category Dropdown -->
+            <label>
+                Category
+                <select formControlName="categoryId">
+                    <option [ngValue]="null">-- Select Category --</option>
+                    @for (category of categories(); track category.categoryId) {
+                    <option [ngValue]="category.categoryId">{{ category.categoryName }}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- Supplier Dropdown -->
+            <label>
+                Supplier
+                <select formControlName="supplierId">
+                    <option [ngValue]="null">-- Select Supplier --</option>
+                    @for (supplier of suppliers(); track supplier.supplierId) {
+                    <option [ngValue]="supplier.supplierId">{{ supplier.companyName }}</option>
+                    }
+                </select>
+            </label>
+
+            <!-- Quantity Per Unit -->
+            <label>
+                Quantity Per Unit
+                <input formControlName="quantityPerUnit" placeholder="e.g. 10 boxes x 20 bags" />
+                @if (form.controls.quantityPerUnit.hasError('maxlength')) {
+                <span class="error">Maximum 20 characters allowed.</span>
+                }
+            </label>
+
+            <!-- Unit Price -->
+            <label>
+                Unit Price ($)
+                <input type="number" step="0.01" formControlName="unitPrice" />
+                @if (form.controls.unitPrice.hasError('min')) {
+                <span class="error">Price cannot be negative.</span>
+                }
+            </label>
+
+            <!-- Inventory Controls -->
+            <label>
+                Units In Stock
+                <input type="number" formControlName="unitsInStock" />
+                @if (form.controls.unitsInStock.hasError('min')) {
+                <span class="error">Units cannot be negative.</span>
+                }
+            </label>
+
+            <label>
+                Units On Order
+                <input type="number" formControlName="unitsOnOrder" />
+                @if (form.controls.unitsOnOrder.hasError('min')) {
+                <span class="error">Units cannot be negative.</span>
+                }
+            </label>
+
+            <label>
+                Reorder Level
+                <input type="number" formControlName="reorderLevel" />
+                @if (form.controls.reorderLevel.hasError('min')) {
+                <span class="error">Reorder level cannot be negative.</span>
+                }
+            </label>
+
+            <!-- Discontinued Checkbox -->
+            <label>
+                Discontinued *
+                <select formControlName="discontinued">
+                    <option [ngValue]="0">No</option>
+                    <option [ngValue]="1">Yes</option>
+                </select>
+            </label>
+
+        </div>
+    </fieldset>
+
+    @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <div class="actions">
+        <button type="button" (click)="onCancel()" [disabled]="saving()">
+            Cancel
+        </button>
+        <button type="submit" [disabled]="isInvalid() || isPending() || isFormDisabled()">
+            @if (saving()) {
+            Saving...
+            } @else {
+            {{ isEdit() ? 'Save Changes' : 'Create Product' }}
+            }
+        </button>
+    </div>
+</form>

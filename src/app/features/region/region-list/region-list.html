@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>Regions</h2>
+  <button class="btn-add" (click)="onAddRegion()">New Region</button>
+</div>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <app-data-grid
+    [columns]="columns"
+    [rows]="regions()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [searchText]="searchText()"
+    [sortColumn]="sortColumn()"
+    [sortDirection]="sortDirection()"
+    [actions]="actions()"
+    [rowKey]="'regionId'"
+    searchPlaceholder="Search region description..."
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+    (actionClick)="onGridAction($event)"
+  >
+  </app-data-grid>
+}

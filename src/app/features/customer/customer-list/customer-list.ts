@@ -3,6 +3,7 @@ import { CustomerService } from '../customer.service';
 import { DataGrid, DataGridAction, DataGridColumn } from '../../../shared/data-grid/data-grid';
 import { Router } from '@angular/router';
 import { Customer } from '../customer';
+import { ToastService } from '../../../shared/toast.service';
 
 @Component({
   imports: [DataGrid],
@@ -13,6 +14,7 @@ import { Customer } from '../customer';
 export class CustomerList implements OnInit {
   private customerService = inject(CustomerService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   columns: DataGridColumn[] = [
     { key: 'customerId', header: 'Customer ID', sortable: false, type: 'text' },
@@ -24,6 +26,7 @@ export class CustomerList implements OnInit {
 
   actions = computed<DataGridAction[]>(() => {
     return [
+      { label: 'Orders', action: 'orders', cssClass: 'primary-button' },
       { label: 'Edit', action: 'edit', cssClass: 'edit-button' },
       { label: 'Delete', action: 'delete', cssClass: 'delete-button' },
     ];
@@ -56,10 +59,11 @@ export class CustomerList implements OnInit {
         next: (res) => {
           this.loading.set(false);
           this.customers.set(res.data);
-           this.totalPages.set(Math.ceil(res.total / this.pageSize()));
+          this.totalPages.set(Math.ceil(res.total / this.pageSize()));
         },
         error: (error) => {
           this.loading.set(false);
+          this.toast.error('Failed to load customers.');
           console.error('Error loading customers:', error);
         }
       });
@@ -92,13 +96,37 @@ export class CustomerList implements OnInit {
   }
   onGridAction(event: { action: string; row: Customer }): void {
     switch (event.action) {
+      case 'orders':
+        this.router.navigate(['/customers/orders', event.row.customerId]);
+        break;
       case 'edit':
-        this.router.navigate(['/hr/departments/edit', event.row.customer_id]);
+        this.router.navigate(['/customers/edit', event.row.customerId]);
         break;
       case 'delete':
-        //this.deleteDepartment(event.row);
+        this.deleteCustomer(event.row);
         break;
     }
+  }
+
+  deleteCustomer(customer: Customer): void {
+    if (!confirm(`Delete customer ${customer.companyName}?`)) {
+      return;
+    }
+
+    this.customerService.deleteCustomer(customer.customerId).subscribe({
+      next: () => {
+        this.toast.success('Customer deleted successfully.');
+        this.loadCustomers();
+      },
+      error: (error) => {
+        this.toast.error('Failed to delete customer. They may have orders.');
+        console.error('Error deleting customer:', error);
+      },
+    });
+  }
+
+  onAddCustomer(): void {
+    this.router.navigate(['/customers/new']);
   }
 
 }   

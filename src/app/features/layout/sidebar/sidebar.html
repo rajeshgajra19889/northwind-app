@@ -1,17 +1,21 @@
 <aside class="sidebar">
     <ul>
+        <li class="nav-item nav-item-dashboard">
+            <a routerLink="/dashboard" routerLinkActive="active">
+                Dashboard
+            </a>
+        </li>
+
         @for (group of navGroups; track group.title) {
         <div class="menu-title">{{ group.title }}</div>
 
         @for (link of group.links; track link.path) {
-        <li>
+        <li class="nav-item">
             <a [routerLink]="link.path" routerLinkActive="active">
                 {{ link.label }}
             </a>
         </li>
         }
         }
-
-
     </ul>
 </aside>

@@ -1,11 +1,15 @@
 export interface Customer {
-    customer_id: string;
-    company_name: string;
-    contact_name: string;
-    contact_title: string;
-    city: string;
-    country: string;
-
+    customerId: string;
+    companyName: string;
+    contactName: string | null;
+    contactTitle: string | null;
+    address: string | null;
+    city: string | null;
+    region: string | null;
+    postalCode: string | null;
+    country: string | null;
+    phone: string | null;
+    fax: string | null;
 }
 
 export interface DepartmentPagedRequest {

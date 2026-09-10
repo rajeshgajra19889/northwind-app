@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h2>Territories</h2>
+  <button class="btn-add" (click)="onAddTerritory()">New Territory</button>
+</div>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <app-data-grid
+    [columns]="columns"
+    [rows]="territories()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [searchText]="searchText()"
+    [sortColumn]="sortColumn()"
+    [sortDirection]="sortDirection()"
+    [actions]="actions()"
+    [rowKey]="'territoryId'"
+    searchPlaceholder="Search territory or region..."
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (previous)="previousPage()"
+    (next)="nextPage()"
+    (actionClick)="onGridAction($event)"
+  >
+  </app-data-grid>
+}

@@ -1,0 +1,45 @@
+<h2>{{ isEdit() ? 'Edit Shipper' : 'New Shipper' }}</h2>
+
+@if (loading()) {
+  <div class="loading-spinner">Loading shipper details...</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset [disabled]="isFormDisabled()">
+    <div class="form-grid">
+      <label class="col-span-2">
+        Company Name *
+        <input formControlName="companyName" placeholder="e.g. Speedy Express" />
+        @if (form.controls.companyName.hasError('required') && form.controls.companyName.touched) {
+          <span class="error">Company name is required.</span>
+        }
+        @if (form.controls.companyName.hasError('maxlength')) {
+          <span class="error">Maximum 40 characters allowed.</span>
+        }
+      </label>
+
+      <label class="col-span-2">
+        Phone
+        <input formControlName="phone" placeholder="e.g. (503) 555-9831" />
+        @if (form.controls.phone.hasError('maxlength')) {
+          <span class="error">Maximum 24 characters allowed.</span>
+        }
+      </label>
+    </div>
+  </fieldset>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="actions">
+    <button type="button" (click)="onCancel()" [disabled]="saving()">Cancel</button>
+    <button type="submit" [disabled]="isInvalid() || isPending() || isFormDisabled()">
+      @if (saving()) {
+        Saving...
+      } @else {
+        {{ isEdit() ? 'Save Changes' : 'Create Shipper' }}
+      }
+    </button>
+  </div>
+</form>

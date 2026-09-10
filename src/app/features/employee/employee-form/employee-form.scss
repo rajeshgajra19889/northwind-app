@@ -1,0 +1,89 @@
+h2 {
+  margin: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+  max-width: 900px;
+  margin: 0 24px;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+input,
+textarea {
+  margin-top: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin: 16px 24px;
+}
+
+.actions {
+  margin: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.actions button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.actions button[type='button'] {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.actions button[type='submit'] {
+  background: #3f51b5;
+  color: #fff;
+
+  &:disabled {
+    background: #9fa8da;
+    cursor: not-allowed;
+  }
+}
+
+.loading-spinner {
+  margin: 24px;
+  color: #666;
+}
