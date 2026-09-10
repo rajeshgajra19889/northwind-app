@@ -1,6 +1,9 @@
 # Northwind App
 
 [![CI](https://github.com/rajeshgajra19889/northwind-app/actions/workflows/ci.yml/badge.svg)](https://github.com/rajeshgajra19889/northwind-app/actions/workflows/ci.yml)
+[![Angular](https://img.shields.io/badge/Angular-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=sass&logoColor=white)](https://sass-lang.com)
 
 Angular frontend for a simple Northwind admin panel. Shows customers, products, orders, employees, suppliers, shippers etc. with a table that has search, sort and pagination.
 
